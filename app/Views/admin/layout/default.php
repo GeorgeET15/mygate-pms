@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= esc($title ?? 'Mygate PMS') ?></title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <style>
+        :root {
+            --mygate-black: #1D1E1E;
+            --mygate-blue: #AEDFFB;
+            --mygate-yellow: #FEDF2B;
+            --blue-gradient: linear-gradient(135deg, #D2EFFA, #AEDFFB);
+            --yellow-gradient: linear-gradient(135deg, #F3ED9D, #FEDF2B);
+            --sidebar-width: 260px;
+            --sidebar-collapsed-width: 70px;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: #f0f2f5; color: var(--mygate-black); }
+        .sidebar { 
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            z-index: 1000;
+            padding: 20px 0;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+            background-color: var(--mygate-black);
+            color: white;
+            transition: all 0.3s ease;
+            overflow-x: hidden;
+        }
+        .sidebar.collapsed {
+            width: var(--sidebar-collapsed-width);
+        }
+        .sidebar.collapsed .sidebar-text, 
+        .sidebar.collapsed .bi-chevron-down,
+        .sidebar.collapsed .collapse {
+            display: none !important;
+        }
+        .sidebar.collapsed .nav-link {
+            text-align: center;
+            padding: 1rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .sidebar.collapsed .nav-link i {
+            margin-right: 0 !important;
+            font-size: 1.4rem;
+        }
+        .sidebar.collapsed .nav-link i.me-2 {
+            margin-right: 0 !important;
+        }
+        .sidebar.collapsed .sidebar-text, 
+        .sidebar.collapsed .bi-chevron-down {
+            display: none !important;
+        }
+        .sidebar.collapsed .px-3 img {
+            max-height: 30px;
+        }
+        .sidebar.collapsed button.nav-link {
+            justify-content: center !important;
+        }
+        .sidebar .nav-link { color: rgba(255,255,255,0.7); font-weight: 500; transition: all 0.2s; padding: 0.8rem 1.5rem; white-space: nowrap; }
+        .sidebar .nav-link:hover { color: var(--mygate-yellow); background: rgba(255,255,255,0.05); }
+        .sidebar .nav-link.active { color: var(--mygate-black); background: var(--yellow-gradient); border-radius: 8px; margin: 0 10px; }
+        
+        .main-content { 
+            margin-left: var(--sidebar-width); 
+            width: calc(100% - var(--sidebar-width));
+            padding: 2rem; 
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+        .main-content.expanded {
+            margin-left: var(--sidebar-collapsed-width);
+            width: calc(100% - var(--sidebar-collapsed-width));
+        }
+        #sidebarToggle {
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--mygate-black);
+            transition: transform 0.3s;
+        }
+        #sidebarToggle:hover { transform: scale(1.1); }
+        .horizontal-scroll-section {
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 1rem;
+            display: flex;
+            gap: 1rem;
+        }
+        .horizontal-scroll-section .card {
+            flex: 0 0 300px; /* Fixed width for cards in horizontal scroll */
+            white-space: normal;
+        }
+
+        /* DataTables Custom Styling */
+        .dataTables_filter input {
+            border-radius: 20px;
+            padding: 5px 15px;
+            border: 1px solid #ddd;
+            background-color: white;
+            min-width: 250px;
+        }
+        .dataTables_length select {
+            border-radius: 10px;
+            padding: 5px 30px 5px 10px !important;
+            border: 1px solid #ddd;
+            appearance: none;
+            background: #fff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") no-repeat right 0.75rem center/16px 12px;
+        }
+        .page-item.active .page-link {
+            background: var(--yellow-gradient);
+            border-color: var(--mygate-yellow);
+            color: var(--mygate-black);
+            font-weight: bold;
+        }
+        .page-link {
+            color: var(--mygate-black);
+            border-radius: 5px;
+            margin: 0 2px;
+        }
+        table.dataTable thead th {
+            border-bottom: 2px solid #f0f0f0;
+            padding: 12px 10px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .btn-primary { background: var(--blue-gradient); border: none; color: var(--mygate-black); font-weight: 600; }
+        .btn-primary:hover { background: #9cd4f5; color: var(--mygate-black); transform: translateY(-1px); }
+        .card { border-radius: 12px; border: none; transition: transform 0.2s; }
+        .card:hover { transform: translateY(-2px); }
+        .card-header { border-bottom: 1px solid #f0f0f0; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--mygate-black);
+            border-radius: 10px;
+            border: 2px solid #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--mygate-blue);
+        }
+
+        /* For Horizontal Scroll Sections */
+        .horizontal-scroll-section::-webkit-scrollbar {
+            height: 6px;
+        }
+        .horizontal-scroll-section::-webkit-scrollbar-thumb {
+            background: var(--mygate-blue);
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="sidebar" id="sidebar">
+                <div class="position-sticky">
+                    <div class="px-3 mb-4 text-center">
+                        <img src="/assets/img/mygate-nobg-logo.webp" alt="Mygate PMS" class="img-fluid rounded shadow-sm" style="max-height: 40px;">
+                    </div>
+                    
+                    <div class="nav flex-column px-2" id="sidebarMenu">
+                        
+                        <a class="nav-link mb-1" href="/admin/dashboard">
+                            <i class="bi bi-speedometer2 me-2"></i> <span class="sidebar-text">Dashboard</span>
+                        </a>
+
+                        <!-- Properties Group -->
+                        <div class="mb-1">
+                            <button class="nav-link w-100 text-start d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#propCollapse">
+                                <span><i class="bi bi-building me-2"></i> <span class="sidebar-text">Properties</span></span>
+                                <i class="bi bi-chevron-down small"></i>
+                            </button>
+                            <div class="collapse ps-3" id="propCollapse" data-bs-parent="#sidebarMenu">
+                                <a class="nav-link py-1 small" href="/admin/landlord">Manage Landlords</a>
+                                <a class="nav-link py-1 small" href="/admin/property">Manage Properties</a>
+                                <a class="nav-link py-1 small" href="/admin/unit">Manage Units</a>
+                            </div>
+                        </div>
+
+                        <!-- Applicants Group -->
+                        <div class="mb-1">
+                            <button class="nav-link w-100 text-start d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#appCollapse">
+                                <span><i class="bi bi-people me-2"></i> <span class="sidebar-text">Applicants</span></span>
+                                <i class="bi bi-chevron-down small"></i>
+                            </button>
+                            <div class="collapse ps-3" id="appCollapse" data-bs-parent="#sidebarMenu">
+                                <a class="nav-link py-1 small" href="/admin/application">Rental Application</a>
+                                <a class="nav-link py-1 small" href="/admin/application/list">Applicant List</a>
+                            </div>
+                        </div>
+
+                        <!-- Lease Group -->
+                        <div class="mb-1">
+                            <button class="nav-link w-100 text-start d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#leaseCollapse">
+                                <span><i class="bi bi-file-earmark-text me-2"></i> <span class="sidebar-text">Lease Mgmt</span></span>
+                                <i class="bi bi-chevron-down small"></i>
+                            </button>
+                            <div class="collapse ps-3" id="leaseCollapse" data-bs-parent="#sidebarMenu">
+                                <a class="nav-link py-1 small" href="/admin/tenant">Tenant List</a>
+                                <a class="nav-link py-1 small" href="/admin/lease">Lease List</a>
+                                <a class="nav-link py-1 small" href="/admin/lease/weekly">Weekly Agreements</a>
+                            </div>
+                        </div>
+
+                        <!-- Accounting Group -->
+                        <div class="mb-1">
+                            <button class="nav-link w-100 text-start d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#accCollapse">
+                                <span><i class="bi bi-cash-stack me-2"></i> <span class="sidebar-text">Accounting</span></span>
+                                <i class="bi bi-chevron-down small"></i>
+                            </button>
+                            <div class="collapse ps-3" id="accCollapse" data-bs-parent="#sidebarMenu">
+                                <a class="nav-link py-1 small" href="/admin/accounting/journal">Journal Entries</a>
+                                <a class="nav-link py-1 small" href="/admin/accounting/receipts">Receipts</a>
+                                <a class="nav-link py-1 small" href="/admin/accounting/vouchers">Debit Vouchers</a>
+                                <a class="nav-link py-1 small" href="/admin/payment">Payment View</a>
+                            </div>
+                        </div>
+
+                        <!-- Operations Group -->
+                        <div class="mb-1">
+                            <button class="nav-link w-100 text-start d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#opCollapse">
+                                <span><i class="bi bi-gear me-2"></i> <span class="sidebar-text">Operations</span></span>
+                                <i class="bi bi-chevron-down small"></i>
+                            </button>
+                            <div class="collapse ps-3" id="opCollapse" data-bs-parent="#sidebarMenu">
+                                <a class="nav-link py-1 small" href="/admin/workorder">Work Orders</a>
+                                <a class="nav-link py-1 small" href="/admin/maintenance">Maintenance Log</a>
+                                <a class="nav-link py-1 small" href="/admin/project">Projects</a>
+                            </div>
+                        </div>
+
+                        <!-- Misc Group -->
+                        <div class="mb-1">
+                            <button class="nav-link w-100 text-start d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#miscCollapse">
+                                <span><i class="bi bi-collection me-2"></i> <span class="sidebar-text">Utilities</span></span>
+                                <i class="bi bi-chevron-down small"></i>
+                            </button>
+                            <div class="collapse ps-3" id="miscCollapse" data-bs-parent="#sidebarMenu">
+                                <a class="nav-link py-1 small" href="/admin/marketing">Marketing</a>
+                                <a class="nav-link py-1 small" href="/admin/settings/pass_storer">Pass Storer</a>
+                                <a class="nav-link py-1 small" href="/admin/quicklink">Quick Links</a>
+                            </div>
+                        </div>
+
+                        <!-- Settings Group -->
+                        <div class="mb-1">
+                            <button class="nav-link w-100 text-start d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#setCollapse">
+                                <span><i class="bi bi-wrench me-2"></i> <span class="sidebar-text">Settings</span></span>
+                                <i class="bi bi-chevron-down small"></i>
+                            </button>
+                            <div class="collapse ps-3" id="setCollapse" data-bs-parent="#sidebarMenu">
+                                <a class="nav-link py-1 small" href="/admin/settings/system">System Settings</a>
+                                <a class="nav-link py-1 small" href="/admin/settings/late_fee">Late Fee Settings</a>
+                                <a class="nav-link py-1 small" href="/admin/notice">Noticeboard</a>
+                            </div>
+                        </div>
+
+                        <hr class="text-secondary">
+                        <a class="nav-link text-danger" href="/login/logout">
+                            <i class="bi bi-box-arrow-right me-2"></i> <span class="sidebar-text">Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="main-content" id="mainContent">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-list me-3" id="sidebarToggle"></i>
+                        <h1 class="h2 mb-0"><?= esc($title ?? 'Dashboard') ?></h1>
+                    </div>
+                </div>
+
+                <!-- Flash Messages -->
+                <?php if (session()->getFlashdata('success')): ?>
+                    <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
+                <?php endif; ?>
+
+                <?php if (session()->getFlashdata('error')): ?>
+                    <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
+                <?php endif; ?>
+
+                <!-- Dynamic Content -->
+                <?= $this->renderSection('content') ?>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Sidebar Toggle
+            $('#sidebarToggle').on('click', function() {
+                $('#sidebar').toggleClass('collapsed');
+                $('#mainContent').toggleClass('expanded');
+            });
+
+            // Auto-expand sidebar if a group is clicked while collapsed
+            $('.sidebar .nav-link[data-bs-toggle="collapse"]').on('click', function() {
+                if ($('#sidebar').hasClass('collapsed')) {
+                    $('#sidebar').removeClass('collapsed');
+                    $('#mainContent').removeClass('expanded');
+                }
+            });
+
+            // Auto-initialize all tables with class 'table' if they have matching col counts
+            $('.table').each(function() {
+                const $table = $(this);
+                const headerCols = $table.find('thead th').length;
+                const bodyCols = $table.find('tbody tr:first td').length;
+
+                // Only initialize if we have headers and matching body columns
+                if (headerCols > 0 && headerCols === bodyCols && !$.fn.DataTable.isDataTable(this)) {
+                    $table.addClass('datatable').DataTable({
+                        pageLength: 10,
+                        responsive: true,
+                        dom: '<"d-flex justify-content-between align-items-center mb-3"lf>rt<"d-flex justify-content-between align-items-center mt-3"ip>',
+                        language: {
+                            search: "_INPUT_",
+                            searchPlaceholder: "Search records..."
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

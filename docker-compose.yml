@@ -1,0 +1,38 @@
+services:
+  app:
+    container_name: mygate-pms-container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+
+  web:
+    container_name: mygate-pms-web
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+
+  db:
+    container_name: mygate-pms-db
+    image: mysql:8.0
+    platform: linux/amd64
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: pms
+    ports:
+      - "3307:3306"
+    volumes:
+      # Auto-initialize the database with the schema
+      - ./pms_schema.sql:/docker-entrypoint-initdb.d/init.sql
+      - dbdata:/var/lib/mysql
+
+volumes:
+  dbdata:
