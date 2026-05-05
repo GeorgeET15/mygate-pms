@@ -1,68 +1,53 @@
-# CodeIgniter 4 Application Starter
+# Mygate Property Management System (PMS) - Modernized
 
-## What is CodeIgniter?
+A premium, containerized Property Management System built with CodeIgniter 4 and modernized with a high-end UI/UX, DataTables integration, and Dockerized infrastructure.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+## 🚀 Quick Setup (Docker)
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+Ensure you have **Docker** and **Docker Compose** installed on your machine.
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+1. **Clone the Repository** (or navigate to the project folder)
+2. **Configure Environment**
+   - Copy `env` to `.env` if not already present.
+   - Ensure database settings are:
+     ```ini
+     database.default.hostname = mygate-pms-db
+     database.default.database = pms
+     database.default.username = root
+     database.default.password = root
+     database.default.DBDriver = MySQLi
+     ```
+3. **Launch the Containers**
+   ```bash
+   docker-compose up -d --build
+   ```
+4. **Access the Application**
+   - **Web App**: [http://localhost:8080](http://localhost:8080)
+   - **Login**: (Use your admin credentials)
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+## 🛠️ Tech Stack
+- **Framework**: CodeIgniter 4.x (PHP 8.1+)
+- **Database**: MySQL 8.0
+- **Frontend**: Bootstrap 5, DataTables.js, Chart.js, Bootstrap Icons
+- **Infrastructure**: Docker & Nginx
 
-## Installation & updates
+## ✨ Key Features
+- **Modern Dashboard**: High-level "Mission Control" with real-time stats and graphical revenue analytics.
+- **Collapsable Sidebar**: Maximized workspace with a sleek, responsive navigation system.
+- **Search-Enabled Tables**: Instant filtering, sorting, and pagination across all data modules via DataTables.js.
+- **Premium Branding**: Custom Mygate color palette (Black, Sky Blue, Bright Yellow) with premium gradients and glassmorphism elements.
+- **Rental Applications**: Full end-to-end applicant tracking system.
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+## 🗄️ Database Management
+The system uses a legacy database schema mapped to modern CI4 models.
+- **Main Tables**: `property`, `unit`, `p_tenant`, `p_lease`, `p_appinfo`, `accounts_ledger`.
+- **Database Host**: The database container is named `mygate-pms-db`.
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+## 📁 Project Structure
+- `app/`: Source code (Controllers, Models, Views)
+- `public/`: Assets (CSS, JS, Images) and entry point
+- `writable/`: Logs, cache, and session data
+- `docker-compose.yml`: Full stack definition
 
-## Setup
-
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
-
-## Important Change with index.php
-
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
-
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
-
-**Please** read the user guide for a better explanation of how CI4 works!
-
-## Repository Management
-
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
-
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
-
-## Server Requirements
-
-PHP version 8.1 or higher is required, with the following extensions installed:
-
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
-
-> [!WARNING]
-> The end of life date for PHP 7.4 was November 28, 2022.
-> The end of life date for PHP 8.0 was November 26, 2023.
-> If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> The end of life date for PHP 8.1 will be November 25, 2024.
-
-Additionally, make sure that the following extensions are enabled in your PHP:
-
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+---
+*Developed for Mygate Property Management Services.*
