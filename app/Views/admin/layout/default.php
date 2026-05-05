@@ -82,11 +82,30 @@
         }
         #sidebarToggle {
             cursor: pointer;
-            font-size: 1.5rem;
-            color: var(--mygate-black);
-            transition: transform 0.3s;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.4);
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.05);
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
-        #sidebarToggle:hover { transform: scale(1.1); }
+        #sidebarToggle:hover { color: var(--mygate-yellow); border-color: var(--mygate-yellow); background: rgba(255,255,255,0.1); }
+        .sidebar.collapsed #sidebarToggle {
+            transform: rotate(180deg);
+            margin: 0 auto;
+        }
+        .sidebar.collapsed .px-3.mb-4 {
+            justify-content: center !important;
+        }
+        .sidebar-logo {
+            max-height: 45px;
+            transition: all 0.3s;
+        }
         .horizontal-scroll-section {
             overflow-x: auto;
             white-space: nowrap;
@@ -99,44 +118,91 @@
             white-space: normal;
         }
 
-        /* DataTables Custom Styling */
-        .dataTables_filter input {
-            border-radius: 20px;
-            padding: 5px 15px;
-            border: 1px solid #ddd;
-            background-color: white;
-            min-width: 250px;
+        /* Professional Table Styling */
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            padding: 0;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border: 1px solid #eee;
         }
-        .dataTables_length select {
+        .table { 
+            margin-bottom: 0 !important;
+        }
+        .table thead th {
+            background-color: #fcfcfc;
+            border-bottom: 1px solid #eee;
+            color: #444;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 16px 20px;
+            font-weight: 600;
+        }
+        .table tbody tr {
+            transition: background-color 0.2s;
+        }
+        .table tbody tr:hover {
+            background-color: #f9fbfd;
+        }
+        .table tbody td {
+            padding: 16px 20px;
+            border-bottom: 1px solid #f1f1f1;
+            vertical-align: middle;
+            color: #555;
+            font-size: 0.9rem;
+        }
+        .table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* DataTables Custom Styling */
+        .dataTables_wrapper .dataTables_filter input {
+            border-radius: 12px;
+            padding: 8px 20px;
+            border: 1px solid #eee;
+            background-color: #f9f9f9;
+            transition: all 0.3s;
+            width: 300px;
+        }
+        .dataTables_wrapper .dataTables_filter input:focus {
+            background-color: white;
+            box-shadow: 0 0 0 4px rgba(174, 223, 251, 0.2);
+            border-color: var(--mygate-blue);
+            outline: none;
+        }
+        .dataTables_wrapper .dataTables_length select {
             border-radius: 10px;
             padding: 5px 30px 5px 10px !important;
-            border: 1px solid #ddd;
+            border: 1px solid #eee;
             appearance: none;
             background: #fff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") no-repeat right 0.75rem center/16px 12px;
         }
         .page-item.active .page-link {
             background: var(--yellow-gradient);
-            border-color: var(--mygate-yellow);
+            border: none;
             color: var(--mygate-black);
             font-weight: bold;
+            box-shadow: 0 4px 10px rgba(254, 223, 43, 0.3);
         }
         .page-link {
             color: var(--mygate-black);
-            border-radius: 5px;
-            margin: 0 2px;
+            border: none;
+            background: transparent;
+            margin: 0 3px;
+            border-radius: 8px !important;
+            padding: 8px 16px;
         }
-        table.dataTable thead th {
-            border-bottom: 2px solid #f0f0f0;
-            padding: 12px 10px;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        .page-link:hover {
+            background-color: #eee;
         }
-        .btn-primary { background: var(--blue-gradient); border: none; color: var(--mygate-black); font-weight: 600; }
-        .btn-primary:hover { background: #9cd4f5; color: var(--mygate-black); transform: translateY(-1px); }
-        .card { border-radius: 12px; border: none; transition: transform 0.2s; }
+
+        .btn-primary { background: var(--blue-gradient); border: none; color: var(--mygate-black); font-weight: 600; padding: 10px 24px; border-radius: 10px; transition: all 0.3s; }
+        .btn-primary:hover { background: #9cd4f5; color: var(--mygate-black); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(174, 223, 251, 0.4); }
+        .card { border-radius: 16px; border: none; transition: transform 0.2s; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
         .card:hover { transform: translateY(-2px); }
-        .card-header { border-bottom: 1px solid #f0f0f0; }
+        .card-header { border-bottom: 1px solid #f0f0f0; background-color: transparent; padding: 1.25rem 1.5rem; }
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
@@ -170,21 +236,22 @@
         <div class="row">
             <!-- Sidebar -->
             <nav class="sidebar" id="sidebar">
-                <div class="position-sticky">
-                    <div class="px-3 mb-4 text-center">
-                        <img src="/assets/img/mygate-logo.png" alt="Mygate PMS" class="img-fluid" style="max-height: 60px;">
+                <div class="position-sticky h-100 d-flex flex-column">
+                    <div class="px-3 mb-4 mt-3 d-flex justify-content-between align-items-center">
+                        <img src="/assets/img/mygate-nobg-logo.webp" alt="Mygate PMS" class="img-fluid rounded sidebar-text sidebar-logo">
+                        <i class="bi bi-chevron-left" id="sidebarToggle"></i>
                     </div>
                     
-                    <div class="nav flex-column px-2" id="sidebarMenu">
+                    <div class="nav flex-column px-2 flex-grow-1" id="sidebarMenu">
                         
                         <a class="nav-link mb-1" href="/admin/dashboard">
-                             <span class="sidebar-text">Dashboard</span>
+                            <i class="bi bi-speedometer2 me-2"></i> <span class="sidebar-text">Dashboard</span>
                         </a>
 
                         <!-- Properties Group -->
                         <div class="mb-1">
                             <button class="nav-link w-100 text-start d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#propCollapse">
-                                <span><span class="sidebar-text">Properties</span></span>
+                                <span><i class="bi bi-building me-2"></i> <span class="sidebar-text">Properties</span></span>
                                 <i class="bi bi-chevron-down small"></i>
                             </button>
                             <div class="collapse ps-3" id="propCollapse" data-bs-parent="#sidebarMenu">
@@ -197,7 +264,7 @@
                         <!-- Applicants Group -->
                         <div class="mb-1">
                             <button class="nav-link w-100 text-start d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#appCollapse">
-                                <span><span class="sidebar-text">Applicants</span></span>
+                                <span><i class="bi bi-people me-2"></i> <span class="sidebar-text">Applicants</span></span>
                                 <i class="bi bi-chevron-down small"></i>
                             </button>
                             <div class="collapse ps-3" id="appCollapse" data-bs-parent="#sidebarMenu">
@@ -209,7 +276,7 @@
                         <!-- Lease Group -->
                         <div class="mb-1">
                             <button class="nav-link w-100 text-start d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#leaseCollapse">
-                                <span><span class="sidebar-text">Lease Management</span></span>
+                                <span><i class="bi bi-file-earmark-text me-2"></i> <span class="sidebar-text">Lease Mgmt</span></span>
                                 <i class="bi bi-chevron-down small"></i>
                             </button>
                             <div class="collapse ps-3" id="leaseCollapse" data-bs-parent="#sidebarMenu">
@@ -222,7 +289,7 @@
                         <!-- Accounting Group -->
                         <div class="mb-1">
                             <button class="nav-link w-100 text-start d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#accCollapse">
-                                <span><span class="sidebar-text">Accounting</span></span>
+                                <span><i class="bi bi-cash-stack me-2"></i> <span class="sidebar-text">Accounting</span></span>
                                 <i class="bi bi-chevron-down small"></i>
                             </button>
                             <div class="collapse ps-3" id="accCollapse" data-bs-parent="#sidebarMenu">
@@ -236,7 +303,7 @@
                         <!-- Operations Group -->
                         <div class="mb-1">
                             <button class="nav-link w-100 text-start d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#opCollapse">
-                                <span><span class="sidebar-text">Operations</span></span>
+                                <span><i class="bi bi-gear me-2"></i> <span class="sidebar-text">Operations</span></span>
                                 <i class="bi bi-chevron-down small"></i>
                             </button>
                             <div class="collapse ps-3" id="opCollapse" data-bs-parent="#sidebarMenu">
@@ -249,7 +316,7 @@
                         <!-- Misc Group -->
                         <div class="mb-1">
                             <button class="nav-link w-100 text-start d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#miscCollapse">
-                                <span><span class="sidebar-text">Utilities</span></span>
+                                <span><i class="bi bi-collection me-2"></i> <span class="sidebar-text">Utilities</span></span>
                                 <i class="bi bi-chevron-down small"></i>
                             </button>
                             <div class="collapse ps-3" id="miscCollapse" data-bs-parent="#sidebarMenu">
@@ -262,7 +329,7 @@
                         <!-- Settings Group -->
                         <div class="mb-1">
                             <button class="nav-link w-100 text-start d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#setCollapse">
-                                <span><span class="sidebar-text">Settings</span></span>
+                                <span><i class="bi bi-wrench me-2"></i> <span class="sidebar-text">Settings</span></span>
                                 <i class="bi bi-chevron-down small"></i>
                             </button>
                             <div class="collapse ps-3" id="setCollapse" data-bs-parent="#sidebarMenu">
@@ -273,8 +340,8 @@
                         </div>
 
                         <hr class="text-secondary">
-                        <a class="nav-link text-danger" href="/login/logout">
-                            <span class="sidebar-text">Logout</span>
+                        <a class="nav-link text-danger mb-4" href="/login/logout">
+                            <i class="bi bi-box-arrow-right me-2"></i> <span class="sidebar-text">Logout</span>
                         </a>
                     </div>
                 </div>
@@ -284,7 +351,6 @@
             <main class="main-content" id="mainContent">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <div class="d-flex align-items-center">
-                        <i class="bi bi-list me-3" id="sidebarToggle"></i>
                         <h1 class="h2 mb-0"><?= esc($title ?? 'Dashboard') ?></h1>
                     </div>
                 </div>

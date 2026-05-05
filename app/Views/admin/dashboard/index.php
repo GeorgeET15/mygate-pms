@@ -7,11 +7,14 @@
     <div class="col-xl-3 col-md-6">
         <div class="card border-0 shadow-sm h-100 overflow-hidden" style="background: var(--blue-gradient);">
             <div class="card-body p-4">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <p class="text-muted small mb-0 fw-bold text-uppercase tracking-wider">Total Properties</p>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="rounded-circle bg-white p-3 shadow-sm d-inline-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                        <i class="bi bi-building text-primary fs-4"></i>
+                    </div>
                     <span class="badge bg-white text-primary rounded-pill">+5%</span>
                 </div>
-                <h2 class="fw-bold mb-0"><?= $total_properties ?></h2>
+                <h3 class="fw-bold mb-1"><?= $total_properties ?></h3>
+                <p class="text-muted small mb-0 fw-medium">Total Properties</p>
             </div>
         </div>
     </div>
@@ -19,11 +22,14 @@
     <div class="col-xl-3 col-md-6">
         <div class="card border-0 shadow-sm h-100 overflow-hidden" style="background: var(--yellow-gradient);">
             <div class="card-body p-4">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <p class="text-muted small mb-0 fw-bold text-uppercase tracking-wider">Active Tenants</p>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="rounded-circle bg-white p-3 shadow-sm d-inline-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                        <i class="bi bi-people text-warning fs-4"></i>
+                    </div>
                     <span class="badge bg-white text-warning rounded-pill">+12%</span>
                 </div>
-                <h2 class="fw-bold mb-0"><?= $total_tenants ?></h2>
+                <h3 class="fw-bold mb-1"><?= $total_tenants ?></h3>
+                <p class="text-muted small mb-0 fw-medium">Active Tenants</p>
             </div>
         </div>
     </div>
@@ -31,12 +37,15 @@
     <div class="col-xl-3 col-md-6">
         <div class="card border-0 shadow-sm h-100 bg-white">
             <div class="card-body p-4 border-start border-primary border-4 rounded-3">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <p class="text-muted small mb-0 fw-bold text-uppercase tracking-wider">Vacant Units</p>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="rounded-circle bg-light p-3 d-inline-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                        <i class="bi bi-house-door text-primary fs-4"></i>
+                    </div>
                     <span class="badge bg-light text-primary rounded-pill"><?= round(($total_units > 0) ? (($total_units - $vacant_units) / $total_units) * 100 : 0) ?>%</span>
                 </div>
-                <h2 class="fw-bold mb-0"><?= $vacant_units ?> / <?= $total_units ?></h2>
-                <div class="progress mt-3" style="height: 4px;">
+                <h3 class="fw-bold mb-1"><?= $vacant_units ?> / <?= $total_units ?></h3>
+                <p class="text-muted small mb-0 fw-medium">Vacant Units</p>
+                <div class="progress mt-2" style="height: 4px;">
                     <div class="progress-bar bg-primary" role="progressbar" style="width: <?= ($total_units > 0) ? (($total_units - $vacant_units) / $total_units) * 100 : 0 ?>%"></div>
                 </div>
             </div>
@@ -46,11 +55,14 @@
     <div class="col-xl-3 col-md-6">
         <div class="card border-0 shadow-sm h-100 bg-dark text-white">
             <div class="card-body p-4">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <p class="text-white-50 small mb-0 fw-bold text-uppercase tracking-wider">Total Revenue</p>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="rounded-circle bg-secondary p-3 d-inline-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                        <i class="bi bi-cash text-white fs-4"></i>
+                    </div>
                     <span class="badge bg-secondary text-white rounded-pill">Monthly</span>
                 </div>
-                <h2 class="fw-bold mb-0">$<?= number_format($total_revenue, 0) ?></h2>
+                <h3 class="fw-bold mb-1">$<?= number_format($total_revenue, 0) ?></h3>
+                <p class="text-white-50 small mb-0 fw-medium">Total Revenue</p>
             </div>
         </div>
     </div>
@@ -123,7 +135,7 @@
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
-                        <thead class="bg-light">
+                        <thead>
                             <tr class="small text-muted text-uppercase">
                                 <th class="ps-4">Issue</th>
                                 <th>Property</th>
