@@ -172,19 +172,19 @@
             <nav class="sidebar" id="sidebar">
                 <div class="position-sticky">
                     <div class="px-3 mb-4 text-center">
-                        <img src="/assets/img/mygate-nobg-logo.webp" alt="Mygate PMS" class="img-fluid rounded shadow-sm" style="max-height: 40px;">
+                        <img src="/assets/img/mygate-logo.png" alt="Mygate PMS" class="img-fluid" style="max-height: 60px;">
                     </div>
                     
                     <div class="nav flex-column px-2" id="sidebarMenu">
                         
                         <a class="nav-link mb-1" href="/admin/dashboard">
-                            <i class="bi bi-speedometer2 me-2"></i> <span class="sidebar-text">Dashboard</span>
+                             <span class="sidebar-text">Dashboard</span>
                         </a>
 
                         <!-- Properties Group -->
                         <div class="mb-1">
                             <button class="nav-link w-100 text-start d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#propCollapse">
-                                <span><i class="bi bi-building me-2"></i> <span class="sidebar-text">Properties</span></span>
+                                <span><span class="sidebar-text">Properties</span></span>
                                 <i class="bi bi-chevron-down small"></i>
                             </button>
                             <div class="collapse ps-3" id="propCollapse" data-bs-parent="#sidebarMenu">
@@ -197,7 +197,7 @@
                         <!-- Applicants Group -->
                         <div class="mb-1">
                             <button class="nav-link w-100 text-start d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#appCollapse">
-                                <span><i class="bi bi-people me-2"></i> <span class="sidebar-text">Applicants</span></span>
+                                <span><span class="sidebar-text">Applicants</span></span>
                                 <i class="bi bi-chevron-down small"></i>
                             </button>
                             <div class="collapse ps-3" id="appCollapse" data-bs-parent="#sidebarMenu">
@@ -209,7 +209,7 @@
                         <!-- Lease Group -->
                         <div class="mb-1">
                             <button class="nav-link w-100 text-start d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#leaseCollapse">
-                                <span><i class="bi bi-file-earmark-text me-2"></i> <span class="sidebar-text">Lease Mgmt</span></span>
+                                <span><span class="sidebar-text">Lease Management</span></span>
                                 <i class="bi bi-chevron-down small"></i>
                             </button>
                             <div class="collapse ps-3" id="leaseCollapse" data-bs-parent="#sidebarMenu">
@@ -222,7 +222,7 @@
                         <!-- Accounting Group -->
                         <div class="mb-1">
                             <button class="nav-link w-100 text-start d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#accCollapse">
-                                <span><i class="bi bi-cash-stack me-2"></i> <span class="sidebar-text">Accounting</span></span>
+                                <span><span class="sidebar-text">Accounting</span></span>
                                 <i class="bi bi-chevron-down small"></i>
                             </button>
                             <div class="collapse ps-3" id="accCollapse" data-bs-parent="#sidebarMenu">
@@ -236,7 +236,7 @@
                         <!-- Operations Group -->
                         <div class="mb-1">
                             <button class="nav-link w-100 text-start d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#opCollapse">
-                                <span><i class="bi bi-gear me-2"></i> <span class="sidebar-text">Operations</span></span>
+                                <span><span class="sidebar-text">Operations</span></span>
                                 <i class="bi bi-chevron-down small"></i>
                             </button>
                             <div class="collapse ps-3" id="opCollapse" data-bs-parent="#sidebarMenu">
@@ -249,7 +249,7 @@
                         <!-- Misc Group -->
                         <div class="mb-1">
                             <button class="nav-link w-100 text-start d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#miscCollapse">
-                                <span><i class="bi bi-collection me-2"></i> <span class="sidebar-text">Utilities</span></span>
+                                <span><span class="sidebar-text">Utilities</span></span>
                                 <i class="bi bi-chevron-down small"></i>
                             </button>
                             <div class="collapse ps-3" id="miscCollapse" data-bs-parent="#sidebarMenu">
@@ -262,7 +262,7 @@
                         <!-- Settings Group -->
                         <div class="mb-1">
                             <button class="nav-link w-100 text-start d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#setCollapse">
-                                <span><i class="bi bi-wrench me-2"></i> <span class="sidebar-text">Settings</span></span>
+                                <span><span class="sidebar-text">Settings</span></span>
                                 <i class="bi bi-chevron-down small"></i>
                             </button>
                             <div class="collapse ps-3" id="setCollapse" data-bs-parent="#sidebarMenu">
@@ -274,7 +274,7 @@
 
                         <hr class="text-secondary">
                         <a class="nav-link text-danger" href="/login/logout">
-                            <i class="bi bi-box-arrow-right me-2"></i> <span class="sidebar-text">Logout</span>
+                            <span class="sidebar-text">Logout</span>
                         </a>
                     </div>
                 </div>
