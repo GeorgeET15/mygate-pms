@@ -315,7 +315,7 @@
                     <div class="nav flex-column px-2 flex-grow-1" id="sidebarMenu">
                         
                         <a class="nav-link mb-1" href="/admin/dashboard">
-                            <i class="bi bi-speedometer2 me-2"></i> <span class="sidebar-text">Dashboard</span>
+                            <i class="bi bi-columns-gap me-2"></i> <span class="sidebar-text">Dashboard</span>
                         </a>
 
                         <!-- Properties Group -->
