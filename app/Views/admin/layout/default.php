@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= esc($title ?? 'Mygate PMS') ?></title>
+    <link rel="icon" type="image/png" href="<?= base_url('assets/img/mygate-logo.png') ?>">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -383,6 +384,7 @@
                             </button>
                             <div class="collapse ps-3" id="setCollapse" data-bs-parent="#sidebarMenu">
                                 <a class="nav-link py-1 small" href="/admin/settings/system">System Settings</a>
+                                <a class="nav-link py-1 small" href="/admin/settings/dashboard">Dashboard Preferences</a>
                                 <a class="nav-link py-1 small" href="/admin/settings/late_fee">Late Fee Settings</a>
                                 <a class="nav-link py-1 small" href="/admin/notice">Noticeboard</a>
                             </div>

@@ -24,6 +24,40 @@ class Settings extends BaseController
         return view('admin/settings/late_fee', $data);
     }
 
+    public function dashboard()
+    {
+        $model = new SettingModel();
+        if ($this->request->is('post')) {
+            $data = $this->request->getPost('dash');
+            foreach ($data as $type => $value) {
+                $model->where('type', $type)->set(['description' => $value])->update();
+            }
+            // Also handle checkboxes that are unchecked (won't be in POST)
+            $all_types = [
+                'dash_show_properties', 'dash_show_vacant', 'dash_show_revenue', 'dash_show_pending', 
+                'dash_show_chart', 'dash_show_maintenance', 'dash_show_tenants', 'dash_show_marketing',
+                'dash_show_links', 'dash_show_notices', 'dash_show_projects', 'dash_show_landlords'
+            ];
+            foreach ($all_types as $type) {
+                if (!isset($data[$type])) {
+                    $model->where('type', $type)->set(['description' => '0'])->update();
+                }
+            }
+            return redirect()->to('/admin/settings/dashboard')->with('success', 'Dashboard preferences updated.');
+        }
+        
+        $settings = $model->where('type LIKE', 'dash_%')->findAll();
+        $formatted = [];
+        foreach ($settings as $s) {
+            $formatted[$s['type']] = $s['description'];
+        }
+
+        return view('admin/settings/dashboard', [
+            'title'    => 'Dashboard Preferences',
+            'settings' => $formatted
+        ]);
+    }
+
     public function system()
     {
         $model = new SettingModel();
@@ -36,7 +70,7 @@ class Settings extends BaseController
         }
         $data = [
             'title'    => 'System Settings',
-            'settings' => $model->findAll()
+            'settings' => $model->where('type NOT LIKE', 'dash_%')->findAll()
         ];
         return view('admin/settings/system', $data);
     }

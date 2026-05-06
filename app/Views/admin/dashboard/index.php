@@ -4,6 +4,7 @@
 
 <div class="row g-4 mb-4">
     <!-- Stat Cards -->
+    <?php if (($dash_settings['dash_show_properties'] ?? '1') == '1'): ?>
     <div class="col-xl-3 col-md-6">
         <div class="card border-0 shadow-sm h-100 overflow-hidden" style="background: var(--blue-gradient);">
             <div class="card-body p-4">
@@ -18,7 +19,9 @@
             </div>
         </div>
     </div>
+    <?php endif; ?>
     
+    <?php if (($dash_settings['dash_show_tenants'] ?? '1') == '1'): ?>
     <div class="col-xl-3 col-md-6">
         <div class="card border-0 shadow-sm h-100 overflow-hidden" style="background: var(--yellow-gradient);">
             <div class="card-body p-4">
@@ -33,7 +36,9 @@
             </div>
         </div>
     </div>
+    <?php endif; ?>
 
+    <?php if (($dash_settings['dash_show_vacant'] ?? '1') == '1'): ?>
     <div class="col-xl-3 col-md-6">
         <div class="card border-0 shadow-sm h-100 bg-white">
             <div class="card-body p-4 border-start border-primary border-4 rounded-3">
@@ -51,7 +56,9 @@
             </div>
         </div>
     </div>
+    <?php endif; ?>
 
+    <?php if (($dash_settings['dash_show_revenue'] ?? '1') == '1'): ?>
     <div class="col-xl-3 col-md-6">
         <div class="card border-0 shadow-sm h-100 bg-dark text-white">
             <div class="card-body p-4">
@@ -66,10 +73,12 @@
             </div>
         </div>
     </div>
+    <?php endif; ?>
 </div>
 
 <div class="row g-4">
     <!-- Chart Section -->
+    <?php if (($dash_settings['dash_show_chart'] ?? '1') == '1'): ?>
     <div class="col-lg-8">
         <div class="card border-0 shadow-sm h-100">
             <div class="card-header bg-white py-3">
@@ -80,9 +89,10 @@
             </div>
         </div>
     </div>
+    <?php endif; ?>
 
     <!-- Quick Actions & Pending -->
-    <div class="col-lg-4">
+    <div class="<?= (($dash_settings['dash_show_chart'] ?? '1') == '1') ? 'col-lg-4' : 'col-lg-12' ?>">
         <div class="card border-0 shadow-sm mb-4">
             <div class="card-header bg-white py-3">
                 <h6 class="mb-0 fw-bold">Quick Actions</h6>
@@ -102,6 +112,7 @@
             </div>
         </div>
 
+        <?php if (($dash_settings['dash_show_pending'] ?? '1') == '1'): ?>
         <div class="card border-0 shadow-sm">
             <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
                 <h6 class="mb-0 fw-bold">Pending Applications</h6>
@@ -124,9 +135,13 @@
                 <a href="/admin/application" class="small text-decoration-none fw-bold">View All Applications</a>
             </div>
         </div>
+        <?php endif; ?>
     </div>
+</div>
 
-    <!-- Recent Maintenance -->
+<div class="row g-4 mt-2">
+    <!-- Maintenance -->
+    <?php if (($dash_settings['dash_show_maintenance'] ?? '1') == '1'): ?>
     <div class="col-12">
         <div class="card border-0 shadow-sm">
             <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
@@ -154,9 +169,7 @@
                                 </td>
                                 <td>Property #<?= $log['PropertyId'] ?></td>
                                 <td><?= date('M d, Y', strtotime($log['when_done'] ?? 'now')) ?></td>
-                                <td>
-                                    <span class="badge status-completed">Completed</span>
-                                </td>
+                                <td><span class="badge status-completed">Completed</span></td>
                                 <td class="text-end pe-4">
                                     <button class="btn btn-sm btn-light"><i class="bi bi-eye"></i></button>
                                 </td>
@@ -168,12 +181,128 @@
             </div>
         </div>
     </div>
+    <?php endif; ?>
+
+    <!-- Landlords -->
+    <?php if (($dash_settings['dash_show_landlords'] ?? '0') == '1'): ?>
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                <h6 class="mb-0 fw-bold">Registered Landlords</h6>
+                <a href="/admin/landlord" class="btn btn-sm btn-light text-primary fw-bold">View All</a>
+            </div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush">
+                    <?php foreach($recent_landlords as $ll): ?>
+                    <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                        <div>
+                            <div class="fw-bold small"><?= esc($ll['first_name'] . ' ' . $ll['last_name']) ?></div>
+                            <div class="text-muted smaller"><?= esc($ll['email']) ?></div>
+                        </div>
+                        <div class="small text-muted"><?= esc($ll['city']) ?></div>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <!-- Marketing -->
+    <?php if (($dash_settings['dash_show_marketing'] ?? '0') == '1'): ?>
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                <h6 class="mb-0 fw-bold">Marketing Activity</h6>
+                <a href="/admin/marketing" class="btn btn-sm btn-light text-primary fw-bold">View All</a>
+            </div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush">
+                    <?php foreach($recent_marketing as $m): ?>
+                    <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                        <div>
+                            <div class="fw-bold small"><?= esc($m['propertyName']) ?></div>
+                            <div class="text-muted smaller">Available: <?= esc($m['availableDate']) ?></div>
+                        </div>
+                        <span class="badge bg-light text-dark rounded-pill">$<?= esc($m['rentAmount']) ?></span>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <!-- Projects -->
+    <?php if (($dash_settings['dash_show_projects'] ?? '0') == '1'): ?>
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                <h6 class="mb-0 fw-bold">Ongoing Projects</h6>
+                <a href="/admin/project" class="btn btn-sm btn-light text-primary fw-bold">View All</a>
+            </div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush">
+                    <?php foreach($recent_projects as $p): ?>
+                    <li class="list-group-item py-3">
+                        <div class="fw-bold small"><?= esc($p['project_name'] ?? 'Project #' . $p['project_id']) ?></div>
+                        <div class="text-muted smaller"><?= esc($p['project_description'] ?? 'Property ID: ' . ($p['property_address'] ?? 'N/A')) ?></div>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <!-- Noticeboard -->
+    <?php if (($dash_settings['dash_show_notices'] ?? '0') == '1'): ?>
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                <h6 class="mb-0 fw-bold">Latest Notices</h6>
+                <a href="/admin/notice" class="btn btn-sm btn-light text-primary fw-bold">View All</a>
+            </div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush">
+                    <?php foreach($recent_notices as $n): ?>
+                    <li class="list-group-item py-3 border-start border-warning border-4">
+                        <div class="fw-bold small"><?= esc($n['notice_title']) ?></div>
+                        <div class="text-muted smaller"><?= date('M d, Y', strtotime($n['created_at'] ?? 'now')) ?></div>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <!-- Quick Links -->
+    <?php if (($dash_settings['dash_show_links'] ?? '0') == '1'): ?>
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white py-3">
+                <h6 class="mb-0 fw-bold">Resource Quick Links</h6>
+            </div>
+            <div class="card-body">
+                <div class="d-flex flex-wrap gap-2">
+                    <?php foreach($recent_links as $l): ?>
+                    <a href="<?= esc($l['quick_links']) ?>" target="_blank" class="btn btn-light border btn-sm rounded-pill px-3">
+                        <i class="bi bi-link-45deg me-1"></i> <?= esc($l['website_title']) ?>
+                    </a>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
 </div>
 
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    <?php if (($dash_settings['dash_show_chart'] ?? '1') == '1'): ?>
     const ctx = document.getElementById('revenueChart').getContext('2d');
     new Chart(ctx, {
         type: 'line',
@@ -204,6 +333,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+    <?php endif; ?>
 });
 </script>
 

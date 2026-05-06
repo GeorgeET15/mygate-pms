@@ -7,14 +7,14 @@ use CodeIgniter\Model;
 class QuickLinkModel extends Model
 {
     protected $table      = 'p_quick_links';
-    protected $primaryKey = 'link_id';
+    protected $primaryKey = 'id';
 
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
 
     protected $allowedFields = [
-        'title',
-        'url'
+        'website_title',
+        'quick_links'
     ];
 
     protected $useTimestamps = false;
