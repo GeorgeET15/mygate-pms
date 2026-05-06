@@ -97,6 +97,45 @@ Set up a cron job to keep the AI Knowledge Base updated:
 
 ---
 
+## Development Server Deployment
+
+If you are setting up a dedicated remote server for testing/development (e.g., `dev.mygate.com`):
+
+### 1. Environment Differences
+Unlike production, the dev server should keep debug features active:
+- **Environment**: Set `CI_ENVIRONMENT = development` in `.env`.
+- **Toolbar**: Ensure the Debug Toolbar is enabled in `app/Config/Filters.php` for this specific instance.
+
+### 2. Configuration
+- **Base URL**: Update `app.baseURL` to your dev subdomain: `https://dev.yourdomain.com/`.
+- **Git Branch**: Often deployed from a `develop` or `staging` branch instead of `main`.
+
+### 3. Server Setup (Quick Commands)
+Assuming a clean Ubuntu server with Docker installed:
+```bash
+# Clone and enter
+git clone -b develop <repo_url> dev-pms
+cd dev-pms
+
+# Initialize environment
+cp env .env
+nano .env # Edit base URL, Gemini Key, and set ENV to development
+
+# Start infrastructure
+docker-compose up -d --build
+
+# Populate AI
+docker exec -it rag-service python /app/sync_data.py
+```
+
+### 4. Continuous Integration (Optional)
+To auto-deploy when you push to the dev branch, you can use a simple Webhook or a GitHub Action that runs:
+```bash
+cd /path/to/dev-pms && git pull && docker-compose up -d
+```
+
+---
+
 ## AI and RAG Infrastructure
 
 The system integrates an advanced AI layer to assist property administrators with data retrieval and analysis.
