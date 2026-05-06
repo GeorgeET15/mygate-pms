@@ -31,6 +31,53 @@ Ensure Docker and Docker Compose are installed on the host system.
 
 ---
 
+## Server Deployment
+
+To deploy the Mygate PMS to a production server (Ubuntu/Debian recommended):
+
+### 1. Prerequisites
+- **Docker & Docker Compose**: Ensure the latest versions are installed.
+- **Git**: For cloning and updating the repository.
+- **Domain Name**: Point your DNS A-record to the server's IP.
+
+### 2. File Permissions
+CodeIgniter requires write access to several directories. Run these commands from the project root:
+```bash
+sudo chown -R www-data:www-data writable
+sudo chmod -R 775 writable
+```
+
+### 3. Production Hardening
+- **Environment**: Change `CI_ENVIRONMENT` in `.env` to `production`.
+- **Base URL**: Update `app.baseURL` in `.env` to your actual domain (e.g., `https://pms.mygate.com/`).
+- **Security**: Ensure the `GOOGLE_API_KEY` is kept secret and not committed to public repositories.
+
+### 4. Reverse Proxy (Nginx)
+It is recommended to use Nginx as a reverse proxy with SSL (Certbot/Let's Encrypt).
+```nginx
+server {
+    listen 80;
+    server_name pms.yourdomain.com;
+
+    location / {
+        proxy_pass http://localhost:8080;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+### 5. Automated Data Sync
+Set up a cron job to keep the AI Knowledge Base updated:
+```bash
+# Update every hour
+0 * * * * docker exec rag-service python /app/sync_data.py > /dev/null 2>&1
+```
+
+---
+
 ## AI and RAG Infrastructure
 
 The system integrates an advanced AI layer to assist property administrators with data retrieval and analysis.
