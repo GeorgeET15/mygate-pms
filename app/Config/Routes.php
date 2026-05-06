@@ -61,11 +61,24 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], static functio
 
     // Marketing & Misc
     $routes->get('marketing', 'Marketing::index');
+    $routes->match(['GET', 'POST'], 'marketing/create', 'Marketing::create');
+    $routes->get('marketing/delete/(:num)', 'Marketing::delete/$1');
+
     $routes->get('notice', 'Notice::index');
+    $routes->match(['GET', 'POST'], 'notice/create', 'Notice::create');
+    $routes->match(['GET', 'POST'], 'notice/edit/(:num)', 'Notice::edit/$1');
+    $routes->get('notice/delete/(:num)', 'Notice::delete/$1');
+
     $routes->get('quicklink', 'QuickLink::index');
-    $routes->get('settings/system', 'Settings::system');
-    $routes->get('settings/late_fee', 'Settings::late_fee');
+    $routes->match(['GET', 'POST'], 'quicklink/create', 'QuickLink::create');
+    $routes->get('quicklink/delete/(:num)', 'QuickLink::delete/$1');
+
+    $routes->match(['GET', 'POST'], 'settings/system', 'Settings::system');
+    $routes->match(['GET', 'POST'], 'settings/dashboard', 'Settings::dashboard');
+    $routes->match(['GET', 'POST'], 'settings/late_fee', 'Settings::late_fee');
     $routes->get('settings/pass_storer', 'Settings::pass_storer');
+    $routes->match(['GET', 'POST'], 'settings/create_pass', 'Settings::create_pass');
+    $routes->get('settings/delete_pass/(:num)', 'Settings::delete_pass/$1');
 
     // Reports
     $routes->get('report/cashflow', 'Report::cashflow');

@@ -84,4 +84,22 @@ class Settings extends BaseController
         ];
         return view('admin/settings/pass_storer', $data);
     }
+
+    public function create_pass()
+    {
+        $model = new PassStorerModel();
+        if ($this->request->is('post')) {
+            if ($model->insert($this->request->getPost())) {
+                return redirect()->to('/admin/settings/pass_storer')->with('success', 'Entry added.');
+            }
+        }
+        return view('admin/settings/create_pass', ['title' => 'Add Entry']);
+    }
+
+    public function delete_pass($id = null)
+    {
+        $model = new PassStorerModel();
+        $model->delete($id);
+        return redirect()->to('/admin/settings/pass_storer')->with('success', 'Entry deleted.');
+    }
 }
