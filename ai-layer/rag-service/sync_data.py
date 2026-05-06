@@ -3,6 +3,7 @@ from qdrant_client import QdrantClient
 from qdrant_client.http import models
 from google import genai
 import os
+import time
 
 # Configuration
 DB_CONFIG = {
@@ -19,21 +20,28 @@ client = genai.Client(api_key=GOOGLE_API_KEY)
 qdrant_client = QdrantClient(host=QDRANT_HOST, port=QDRANT_PORT)
 
 def get_embeddings(text):
-    result = client.models.embed_content(
-        model="gemini-embedding-001",
-        contents=text
-    )
-    return result.embeddings[0].values
+    try:
+        result = client.models.embed_content(
+            model="gemini-embedding-001",
+            contents=text
+        )
+        return result.embeddings[0].values
+    except Exception as e:
+        print(f"Embedding error: {e}")
+        time.sleep(5) # Backoff
+        return get_embeddings(text)
 
 def sync_unstructured_data():
     conn = mysql.connector.connect(**DB_CONFIG)
     cursor = conn.cursor(dictionary=True)
     
+    points = []
+    
     # 1. Maintenance Logs
+    print("Indexing Maintenance Logs...")
     cursor.execute("SELECT m.*, p.property_name FROM p_maintenance_log m JOIN property p ON m.PropertyId = p.property_id")
     logs = cursor.fetchall()
     
-    points = []
     for log in logs:
         text = f"Property: {log['property_name']} | Maintenance Issue: {log['Description']} | Date: {log['when_done']}"
         vector = get_embeddings(text)
@@ -47,8 +55,10 @@ def sync_unstructured_data():
                 "date": str(log['when_done'])
             }
         ))
+        time.sleep(1.0) # Rate limiting for free tier
         
     # 2. Notices
+    print("Indexing Notices...")
     cursor.execute("SELECT * FROM noticeboard")
     notices = cursor.fetchall()
     for notice in notices:
@@ -63,8 +73,10 @@ def sync_unstructured_data():
                 "title": notice['notice_title']
             }
         ))
+        time.sleep(1.0)
 
-    # 3. Work Orders (Pending and Completed)
+    # 3. Work Orders
+    print("Indexing Work Orders...")
     cursor.execute("SELECT w.*, p.property_name FROM work_order w JOIN property p ON w.PropertyId = p.property_id")
     work_orders = cursor.fetchall()
     for wo in work_orders:
@@ -81,12 +93,14 @@ def sync_unstructured_data():
                 "status": status_text
             }
         ))
+        time.sleep(1.0)
 
-    # Upsert to Qdrant (gemini-embedding-001 produces 3072-dim vectors)
-    qdrant_client.recreate_collection(
-        collection_name="pms_knowledge",
-        vectors_config=models.VectorParams(size=3072, distance=models.Distance.COSINE),
-    )
+    # Prepare Qdrant Collection
+    if not qdrant_client.collection_exists("pms_knowledge"):
+        qdrant_client.create_collection(
+            collection_name="pms_knowledge",
+            vectors_config=models.VectorParams(size=3072, distance=models.Distance.COSINE),
+        )
     
     if points:
         qdrant_client.upsert(collection_name="pms_knowledge", points=points)
