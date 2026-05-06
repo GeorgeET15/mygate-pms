@@ -2,32 +2,51 @@
 
 A containerized Property Management System built with CodeIgniter 4, featuring a modern user interface, DataTables integration, and a Google Gemini-powered Retrieval-Augmented Generation (RAG) system.
 
-## Setup Instructions
+## Setup Instructions (Development)
 
-Ensure Docker and Docker Compose are installed on the host system.
+Follow these precise steps to initialize the development environment:
 
-1. **Clone the Repository** (or navigate to the project folder)
-2. **Configure Environment**
-   - Copy `env` to `.env`.
-   - Configure the Google Gemini API Key:
-     ```ini
-     GOOGLE_API_KEY=your_gemini_api_key_here
-     ```
-   - Verify database configuration:
-     ```ini
-     database.default.hostname = mygate-pms-db
-     database.default.database = pms
-     database.default.username = root
-     database.default.password = root
-     database.default.DBDriver = MySQLi
-     ```
-3. **Initialize Containers**
-   ```bash
-   docker-compose up -d --build
-   ```
-4. **Access the Application**
-   - **Web Interface**: [http://localhost:8080](http://localhost:8080)
-   - **Authentication**: Use administrative credentials to log in.
+### 1. Repository Preparation
+Clone the repository and enter the project directory:
+```bash
+git clone <repository_url>
+cd mygate-pms
+```
+
+### 2. Environment Configuration
+The application requires a `.env` file to manage secrets and connections. 
+- **Create the file**:
+  ```bash
+  cp env .env
+  ```
+- **Edit the file**: Open `.env` in your editor and configure the following:
+  - **Gemini AI**: Add your API key to `GOOGLE_API_KEY`.
+  - **Environment**: Set `CI_ENVIRONMENT = development`.
+  - **Database**: Ensure the following settings match the Docker infrastructure:
+    ```ini
+    database.default.hostname = mygate-pms-db
+    database.default.database = pms
+    database.default.username = root
+    database.default.password = root
+    ```
+
+### 3. Infrastructure Initialization
+Spin up the containerized services (PHP, MySQL, Qdrant, RAG-Service):
+```bash
+docker-compose up -d --build
+```
+*Note: The first build may take several minutes as it installs PHP extensions and Python dependencies.*
+
+### 4. Database & AI Synchronization
+Once containers are running, populate the AI vector store:
+```bash
+docker exec -it rag-service python /app/sync_data.py
+```
+
+### 5. Verification
+- **Web App**: Visit [http://localhost:8080](http://localhost:8080)
+- **RAG API**: Visit [http://localhost:8000/docs](http://localhost:8000/docs) (Swagger UI)
+- **Database**: Port `3306` is exposed for external tools (e.g., TablePlus, DBeaver).
 
 ---
 
