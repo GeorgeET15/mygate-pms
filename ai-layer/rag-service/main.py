@@ -87,7 +87,7 @@ async def chat(request: ChatRequest):
         
         # 2. Gemini Agent with Tool Use
         system_instruction = f"""
-        You are a senior AI Property Manager for Mygate PMS. 
+        You are the Mygate PMS Administrative Assistant. 
         
         You have access to:
         1. Historical Context (RAG): {context}
