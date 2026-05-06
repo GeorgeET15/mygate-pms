@@ -29,12 +29,18 @@
                                 <td><?= esc($row['phone_number']) ?></td>
                                 <td><?= esc($row['prop_name']) ?></td>
                                 <td>
-                                    <span class="badge bg-<?= $row['rent_status'] == 0 ? 'warning' : ($row['rent_status'] == 1 ? 'success' : 'danger') ?>">
-                                        <?= $row['rent_status'] == 0 ? 'Pending' : ($row['rent_status'] == 1 ? 'Approved' : 'Rejected') ?>
-                                    </span>
+                                    <?php 
+                                        $statusClass = 'status-pending';
+                                        $statusText = 'Pending';
+                                        if($row['rent_status'] == 1) { $statusClass = 'status-approved'; $statusText = 'Approved'; }
+                                        elseif($row['rent_status'] == 2) { $statusClass = 'status-rejected'; $statusText = 'Rejected'; }
+                                    ?>
+                                    <span class="badge <?= $statusClass ?>"><?= $statusText ?></span>
                                 </td>
                                 <td class="text-end">
-                                    <a href="/admin/application/delete/<?= $row['appinfo_id'] ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                                    <a href="/admin/application/delete/<?= $row['appinfo_id'] ?>" class="btn btn-sm btn-light text-danger" onclick="return confirm('Are you sure?')" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

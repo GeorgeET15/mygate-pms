@@ -33,15 +33,19 @@
                                 <td><?= esc($unit['floor_number']) ?></td>
                                 <td>$<?= esc($unit['trent']) ?> / <?= esc($unit['trent_period']) ?></td>
                                 <td>
-                                    <?php if($unit['vacant_status'] == 1): ?>
-                                        <span class="badge bg-danger">Occupied</span>
+                                    <?php if ($unit['vacant_status'] == 1): ?>
+                                        <span class="badge status-occupied">Occupied</span>
                                     <?php else: ?>
-                                        <span class="badge bg-success">Vacant</span>
+                                        <span class="badge status-vacant">Vacant</span>
                                     <?php endif; ?>
                                 </td>
-                                <td class="text-end">
-                                    <a href="/admin/unit/edit/<?= esc($unit['unit_id']) ?>" class="btn btn-sm btn-outline-primary">Edit</a>
-                                    <a href="/admin/unit/delete/<?= esc($unit['unit_id']) ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this unit?');">Delete</a>
+                                <td class="text-end text-nowrap">
+                                    <a href="/admin/unit/edit/<?= esc($unit['unit_id']) ?>" class="btn btn-sm btn-light text-primary me-1" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a href="/admin/unit/delete/<?= esc($unit['unit_id']) ?>" class="btn btn-sm btn-light text-danger" onclick="return confirm('Delete this unit?');" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

@@ -30,7 +30,9 @@
                                 <td><?= esc($row['UnitName']) ?></td>
                                 <td><?= esc($row['Category']) ?></td>
                                 <td class="text-end">
-                                    <a href="/admin/maintenance/delete/<?= $row['maintenance_log_id'] ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                                    <a href="/admin/maintenance/delete/<?= $row['maintenance_log_id'] ?>" class="btn btn-sm btn-light text-danger" onclick="return confirm('Are you sure?')" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

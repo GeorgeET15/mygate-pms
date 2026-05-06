@@ -25,9 +25,13 @@
                                 <td><?= $row['project_id'] ?></td>
                                 <td><strong><?= esc($row['project_name']) ?></strong></td>
                                 <td><?= esc($row['project_description']) ?></td>
-                                <td class="text-end">
-                                    <a href="/admin/project/edit/<?= $row['project_id'] ?>" class="btn btn-sm btn-outline-primary">Edit</a>
-                                    <a href="/admin/project/delete/<?= $row['project_id'] ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                                <td class="text-end text-nowrap">
+                                    <a href="/admin/project/edit/<?= $row['project_id'] ?>" class="btn btn-sm btn-light text-primary me-1" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a href="/admin/project/delete/<?= $row['project_id'] ?>" class="btn btn-sm btn-light text-danger" onclick="return confirm('Are you sure?')" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

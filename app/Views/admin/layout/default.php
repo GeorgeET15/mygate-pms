@@ -129,16 +129,18 @@
         }
         .table { 
             margin-bottom: 0 !important;
+            width: 100% !important;
         }
         .table thead th {
             background-color: #fcfcfc;
             border-bottom: 1px solid #eee;
             color: #444;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 16px 20px;
-            font-weight: 600;
+            letter-spacing: 0.8px;
+            padding: 18px 20px;
+            font-weight: 700;
+            vertical-align: middle;
         }
         .table tbody tr {
             transition: background-color 0.2s;
@@ -147,7 +149,7 @@
             background-color: #f9fbfd;
         }
         .table tbody td {
-            padding: 16px 20px;
+            padding: 18px 20px;
             border-bottom: 1px solid #f1f1f1;
             vertical-align: middle;
             color: #555;
@@ -157,14 +159,39 @@
             border-bottom: none;
         }
 
+        /* DataTables Custom Styling Wrapper */
+        .dataTables_wrapper {
+            padding: 10px 0;
+        }
+        .dataTables_wrapper .row:first-child {
+            padding: 15px 20px 20px 20px;
+            margin-bottom: 0;
+        }
+        .dataTables_info {
+            padding-left: 20px;
+            padding-top: 20px;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        .dataTables_paginate {
+            padding-right: 20px;
+            padding-top: 15px;
+        }
+
         /* DataTables Custom Styling */
+        .dataTables_wrapper .dataTables_filter {
+            text-align: right;
+        }
         .dataTables_wrapper .dataTables_filter input {
             border-radius: 12px;
-            padding: 8px 20px;
+            padding: 10px 20px;
             border: 1px solid #eee;
             background-color: #f9f9f9;
             transition: all 0.3s;
             width: 300px;
+            height: 42px;
+            font-size: 0.9rem;
+            margin-left: 0 !important;
         }
         .dataTables_wrapper .dataTables_filter input:focus {
             background-color: white;
@@ -174,9 +201,10 @@
         }
         .dataTables_wrapper .dataTables_length select {
             border-radius: 10px;
-            padding: 5px 30px 5px 10px !important;
+            padding: 0 35px 0 15px !important;
             border: 1px solid #eee;
             appearance: none;
+            height: 42px;
             background: #fff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") no-repeat right 0.75rem center/16px 12px;
         }
         .page-item.active .page-link {
@@ -194,9 +222,28 @@
             border-radius: 8px !important;
             padding: 8px 16px;
         }
-        .page-link:hover {
-            background-color: #eee;
+        /* Premium Status Badges */
+        .badge {
+            padding: 6px 12px;
+            font-weight: 600;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
+        .status-pending { background-color: #fff8e1; color: #f57f17; border: 1px solid #ffecb3; }
+        .status-approved { background-color: #e3f2fd; color: #0d47a1; border: 1px solid #bbdefb; }
+        .status-completed { background-color: #e8f5e9; color: #1b5e20; border: 1px solid #c8e6c9; }
+        .status-rejected { background-color: #ffeeb2; color: #b71c1c; border: 1px solid #ffcdd2; }
+        .status-occupied { background-color: #e8f5e9; color: #1b5e20; border: 1px solid #c8e6c9; }
+        .status-vacant { background-color: #fff8e1; color: #f57f17; border: 1px solid #ffecb3; }
+        .status-active { background-color: #e8f5e9; color: #1b5e20; border: 1px solid #c8e6c9; }
+        .status-inactive { background-color: #fff5f2; color: #b71c1c; border: 1px solid #ffcdd2; }
+        /* Alternative mapping for standard BS classes */
+        .badge.bg-warning-subtle { background-color: #fff8e1 !important; color: #f57f17 !important; border: 1px solid #ffecb3 !important; }
+        .badge.bg-primary-subtle { background-color: #e3f2fd !important; color: #0d47a1 !important; border: 1px solid #bbdefb !important; }
+        .badge.bg-success-subtle { background-color: #e8f5e9 !important; color: #1b5e20 !important; border: 1px solid #c8e6c9 !important; }
+        .badge.bg-danger-subtle { background-color: #ffede5 !important; color: #b71c1c !important; border: 1px solid #ffcdd2 !important; }
 
         .btn-primary { background: var(--blue-gradient); border: none; color: var(--mygate-black); font-weight: 600; padding: 10px 24px; border-radius: 10px; transition: all 0.3s; }
         .btn-primary:hover { background: #9cd4f5; color: var(--mygate-black); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(174, 223, 251, 0.4); }
@@ -405,7 +452,7 @@
                     $table.addClass('datatable').DataTable({
                         pageLength: 10,
                         responsive: true,
-                        dom: '<"d-flex justify-content-between align-items-center mb-3"lf>rt<"d-flex justify-content-between align-items-center mt-3"ip>',
+                        dom: '<"row align-items-center mb-3"<"col-md-6"l><"col-md-6"f>>rt<"row align-items-center mt-3"<"col-md-6"i><"col-md-6"p>>',
                         language: {
                             search: "_INPUT_",
                             searchPlaceholder: "Search records..."

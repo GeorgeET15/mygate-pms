@@ -28,7 +28,9 @@
                                 <td><?= esc($row['contact_no']) ?></td>
                                 <td><?= esc($row['address']) ?>, <?= esc($row['city']) ?></td>
                                 <td class="text-end">
-                                    <a href="/admin/landlord/delete/<?= $row['landlord_id'] ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                                    <a href="/admin/landlord/delete/<?= $row['landlord_id'] ?>" class="btn btn-sm btn-light text-danger" onclick="return confirm('Are you sure?')" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

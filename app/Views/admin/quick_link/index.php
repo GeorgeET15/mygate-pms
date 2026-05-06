@@ -24,7 +24,9 @@
                                 <td><strong><?= esc($row['title']) ?></strong></td>
                                 <td><a href="<?= esc($row['url']) ?>" target="_blank"><?= esc($row['url']) ?></a></td>
                                 <td class="text-end">
-                                    <a href="/admin/quicklink/delete/<?= $row['link_id'] ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                                    <a href="/admin/quicklink/delete/<?= $row['link_id'] ?>" class="btn btn-sm btn-light text-danger" onclick="return confirm('Are you sure?')" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

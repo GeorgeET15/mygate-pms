@@ -134,9 +134,9 @@
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
+                    <table class="table table-hover align-middle">
                         <thead>
-                            <tr class="small text-muted text-uppercase">
+                            <tr>
                                 <th class="ps-4">Issue</th>
                                 <th>Property</th>
                                 <th>Date</th>
@@ -154,7 +154,7 @@
                                 <td>Property #<?= $log['PropertyId'] ?></td>
                                 <td><?= date('M d, Y', strtotime($log['when_done'] ?? 'now')) ?></td>
                                 <td>
-                                    <span class="badge bg-success-subtle text-success px-3">Completed</span>
+                                    <span class="badge status-completed">Completed</span>
                                 </td>
                                 <td class="text-end pe-4">
                                     <button class="btn btn-sm btn-light"><i class="bi bi-eye"></i></button>

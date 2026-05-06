@@ -29,12 +29,16 @@
                                 <td><?= esc($row['property_name'] ?? 'N/A') ?> / <?= esc($row['unit_name'] ?? 'N/A') ?></td>
                                 <td><?= esc($row['moveinDate']) ?> to <?= esc($row['moveoutDate']) ?></td>
                                 <td>$<?= esc($row['rentAmount']) ?> (<?= esc($row['frequency']) ?>)</td>
-                                <td class="text-end">
-                                    <div class="btn-group">
-                                        <a href="/admin/lease/renew/<?= $row['leaseId'] ?>" class="btn btn-sm btn-outline-success">Renew</a>
-                                        <a href="/admin/lease/terminate/<?= $row['leaseId'] ?>" class="btn btn-sm btn-outline-warning">Terminate</a>
-                                        <a href="/admin/lease/delete/<?= $row['leaseId'] ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">Delete</a>
-                                    </div>
+                                <td class="text-end text-nowrap">
+                                    <a href="/admin/lease/edit/<?= $row['leaseId'] ?>" class="btn btn-sm btn-light text-primary me-1" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a href="/admin/lease/view/<?= $row['leaseId'] ?>" class="btn btn-sm btn-light text-secondary me-1" title="View">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a href="/admin/lease/delete/<?= $row['leaseId'] ?>" class="btn btn-sm btn-light text-danger" onclick="return confirm('Are you sure?')" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

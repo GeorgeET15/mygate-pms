@@ -28,7 +28,9 @@
                                 <td><?= esc($row['username']) ?></td>
                                 <td><code><?= esc($row['password']) ?></code></td>
                                 <td class="text-end">
-                                    <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                    <button class="btn btn-sm btn-light text-danger" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
