@@ -62,8 +62,23 @@
         .sidebar.collapsed .bi-chevron-down {
             display: none !important;
         }
-        .sidebar.collapsed .px-3 img {
-            max-height: 30px;
+        .sidebar.collapsed .px-3 img.sidebar-logo-collapsed {
+            display: block !important;
+            max-height: 41px;
+            margin: 0 auto;
+        }
+        .sidebar.collapsed .sidebar-logo-full {
+            display: none !important;
+        }
+        .sidebar.collapsed .sidebar-toggle-container {
+            display: none !important;
+        }
+        .sidebar-logo-full {
+            max-height: 41px;
+            width: auto;
+        }
+        .sidebar-logo-collapsed {
+            display: none;
         }
         .sidebar.collapsed button.nav-link {
             justify-content: center !important;
@@ -85,22 +100,24 @@
         }
         #sidebarToggle {
             cursor: pointer;
-            font-size: 0.85rem;
             color: rgba(255,255,255,0.4);
-            transition: all 0.3s;
-            background: rgba(255,255,255,0.05);
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 6px;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            /* background: rgba(255,255,255,0.05); */
+            transition: all 0.3s ease;
         }
-        #sidebarToggle:hover { color: var(--mygate-yellow); border-color: var(--mygate-yellow); background: rgba(255,255,255,0.1); }
+        #sidebarToggle:hover { 
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-color: rgba(255,255,255,0.4);
+        }
         .sidebar.collapsed #sidebarToggle {
-            transform: rotate(180deg);
-            margin: 0 auto;
+            display: none !important;
         }
         .sidebar.collapsed .px-3.mb-4 {
             justify-content: center !important;
@@ -287,9 +304,12 @@
             <!-- Sidebar -->
             <nav class="sidebar" id="sidebar">
                 <div class="position-sticky h-100 d-flex flex-column">
-                    <div class="px-3 mb-4 mt-3 d-flex justify-content-between align-items-center">
-                        <img src="/assets/img/mygate-nobg-logo.webp" alt="Mygate PMS" class="img-fluid rounded sidebar-text sidebar-logo">
-                        <i class="bi bi-chevron-left" id="sidebarToggle"></i>
+                    <div class="px-3 mb-4 d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <img src="/assets/img/mygate-nobg-logo.webp" alt="Mygate PMS" class="img-fluid rounded sidebar-logo-full ms-2">
+                            <img src="/assets/img/mygate-nobg-logo1.webp" alt="Mygate PMS" class="img-fluid rounded sidebar-logo-collapsed">
+                        </div>
+                        <i class="bi bi-chevron-compact-left" id="sidebarToggle" title="Collapse Sidebar"></i>
                     </div>
                     
                     <div class="nav flex-column px-2 flex-grow-1" id="sidebarMenu">
