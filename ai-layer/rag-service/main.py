@@ -95,7 +95,7 @@ async def chat(request: ChatRequest):
         
         Database Schema Overview:
         - property: property_id, property_name, property_type, city
-        - unit: unit_id, unit_name, property_id, trent, vacant_status
+        - unit: unit_id, unit_name, property_id, trent, vacant_status (1=Vacant, 0=Occupied)
         - p_tenant: tenant_id, tenant_name, property_name, vacant_unit, tenantStatus (Active/Inactive)
         - p_lease: leaseId, tenantId, rentAmount, moveinDate, moveoutDate
         - work_order: wo_id, PropertyId, JobTitle, JobDescription, isWorkDone (1=Completed, 0=Pending), created_at

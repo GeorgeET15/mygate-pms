@@ -26,10 +26,10 @@ class Dashboard extends BaseController
             'total_properties'  => $propertyModel->countAllResults(),
             'total_tenants'     => $tenantModel->countAllResults(),
             'total_units'       => $unitModel->countAllResults(),
-            'vacant_units'      => $unitModel->where('vacant_status', 0)->countAllResults(),
+            'vacant_units'      => $unitModel->where('vacant_status', 1)->countAllResults(),
             'total_revenue'     => $invoiceModel->selectSum('TotalPrice')->first()['TotalPrice'] ?? 0,
             'recent_invoices'   => $invoiceModel->getInvoicesWithDetails(),
-            'recent_maintenance'=> $maintenanceModel->orderBy('when_done', 'DESC')->limit(5)->find(),
+            'recent_maintenance'=> $maintenanceModel->orderBy('when_done', 'DESC')->find(),
             'pending_apps'      => $appModel->where('rent_status', 0)->countAllResults()
         ];
 

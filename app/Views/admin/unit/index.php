@@ -43,7 +43,7 @@
                                     <a href="/admin/unit/edit/<?= esc($unit['unit_id']) ?>" class="btn btn-sm btn-light text-primary me-1" title="Edit">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <a href="/admin/unit/delete/<?= esc($unit['unit_id']) ?>" class="btn btn-sm btn-light text-danger" onclick="return confirm('Delete this unit?');" title="Delete">
+                                    <a href="/admin/unit/delete/<?= esc($unit['unit_id']) ?>" class="btn btn-sm btn-light text-danger confirm-delete" data-message="Delete this unit?" title="Delete">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>

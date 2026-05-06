@@ -48,6 +48,47 @@ class Lease extends BaseController
         return view('admin/lease/index', $data);
     }
 
+    public function view($id = null)
+    {
+        $lease = $this->leaseModel
+                      ->select('p_lease.*, p_tenant.tenant_name, property.property_name, unit.unit_name')
+                      ->join('p_tenant', 'p_tenant.tenant_id = p_lease.tenantId', 'left')
+                      ->join('property', 'property.property_id = p_lease.property_name', 'left')
+                      ->join('unit', 'unit.unit_id = p_lease.vacant_unit', 'left')
+                      ->find($id);
+
+        if (!$lease) throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+
+        return view('admin/lease/view', [
+            'title' => 'View Lease',
+            'lease' => $lease
+        ]);
+    }
+
+    public function edit($id = null)
+    {
+        $propertyModel = new PropertyModel();
+        $unitModel = new UnitModel();
+        $tenantModel = new TenantModel();
+
+        if ($this->request->is('post')) {
+            if ($this->leaseModel->update($id, $this->request->getPost())) {
+                return redirect()->to('/admin/lease')->with('success', 'Lease updated.');
+            }
+        }
+
+        $lease = $this->leaseModel->find($id);
+        if (!$lease) throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+
+        return view('admin/lease/edit', [
+            'title'      => 'Edit Lease',
+            'lease'      => $lease,
+            'properties' => $propertyModel->findAll(),
+            'units'      => $unitModel->where('property_name', $lease['property_name'])->findAll(),
+            'tenants'    => $tenantModel->findAll()
+        ]);
+    }
+
     public function create()
     {
         $propertyModel = new PropertyModel();

@@ -36,7 +36,7 @@
                                     <a href="/admin/lease/view/<?= $row['leaseId'] ?>" class="btn btn-sm btn-light text-secondary me-1" title="View">
                                         <i class="bi bi-eye"></i>
                                     </a>
-                                    <a href="/admin/lease/delete/<?= $row['leaseId'] ?>" class="btn btn-sm btn-light text-danger" onclick="return confirm('Are you sure?')" title="Delete">
+                                    <a href="/admin/lease/delete/<?= $row['leaseId'] ?>" class="btn btn-sm btn-light text-danger confirm-delete" data-message="Are you sure?" title="Delete">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>

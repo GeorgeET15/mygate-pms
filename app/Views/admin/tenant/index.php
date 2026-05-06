@@ -43,7 +43,7 @@
                                     <a href="/admin/tenant/edit/<?= esc($tenant['tenant_id']) ?>" class="btn btn-sm btn-light text-primary me-1" title="Edit">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <a href="/admin/tenant/delete/<?= esc($tenant['tenant_id']) ?>" class="btn btn-sm btn-light text-danger" onclick="return confirm('Delete this tenant?');" title="Delete">
+                                    <a href="/admin/tenant/delete/<?= esc($tenant['tenant_id']) ?>" class="btn btn-sm btn-light text-danger confirm-delete" data-message="Delete this tenant?" title="Delete">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>

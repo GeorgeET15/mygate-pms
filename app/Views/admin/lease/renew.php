@@ -7,9 +7,9 @@
         <h5 class="mb-0">Renew Lease</h5>
     </div>
     <div class="card-body">
-        <form action="/admin/lease/renew/<?= $lease['lease_id'] ?>" method="POST">
+        <form action="/admin/lease/renew/<?= $lease['leaseId'] ?>" method="POST">
             <?= csrf_field() ?>
-            <input type="hidden" name="leaseId" value="<?= $lease['lease_id'] ?>">
+            <input type="hidden" name="leaseId" value="<?= $lease['leaseId'] ?>">
             <div class="mb-3">
                 <label class="form-label">New Move-in Date</label>
                 <input type="date" name="moveinDate" class="form-control" value="<?= $lease['moveoutDate'] ?>" required>

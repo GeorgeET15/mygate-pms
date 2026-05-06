@@ -29,7 +29,7 @@
                                     <a href="/admin/notice/edit/<?= $row['notice_id'] ?>" class="btn btn-sm btn-light text-primary me-1" title="Edit">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <a href="/admin/notice/delete/<?= $row['notice_id'] ?>" class="btn btn-sm btn-light text-danger" onclick="return confirm('Are you sure?')" title="Delete">
+                                    <a href="/admin/notice/delete/<?= $row['notice_id'] ?>" class="btn btn-sm btn-light text-danger confirm-delete" data-message="Are you sure?" title="Delete">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>

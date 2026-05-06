@@ -8,6 +8,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         :root {
             --mygate-black: #1D1E1E;
@@ -461,7 +463,104 @@
                 }
             });
         });
+
+        // Global Delete Confirmation with SweetAlert2
+        $(document).on('click', '.confirm-delete', function(e) {
+            e.preventDefault();
+            const url = $(this).attr('href');
+            const message = $(this).data('message') || 'Are you sure you want to delete this record?';
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: message,
+                icon: 'warning',
+                iconColor: '#FEDF2B',
+                showCancelButton: true,
+                confirmButtonColor: '#1D1E1E',
+                cancelButtonColor: '#f8f9fa',
+                confirmButtonText: 'Yes, Delete',
+                cancelButtonText: 'Cancel',
+                background: '#fff',
+                customClass: {
+                    popup: 'premium-swal-popup',
+                    confirmButton: 'premium-swal-confirm',
+                    cancelButton: 'premium-swal-cancel'
+                },
+                buttonsStyling: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = url;
+                }
+            });
+        });
+
+        // Flash Message Success/Error with SweetAlert2
+        <?php if (session()->getFlashdata('success')): ?>
+            Swal.fire({
+                icon: 'success',
+                iconColor: '#AEDFFB',
+                title: 'Success',
+                text: '<?= session()->getFlashdata('success') ?>',
+                timer: 3000,
+                showConfirmButton: false,
+                background: '#fff',
+                customClass: {
+                    popup: 'premium-swal-popup'
+                }
+            });
+        <?php endif; ?>
+
+        <?php if (session()->getFlashdata('error')): ?>
+            Swal.fire({
+                icon: 'error',
+                iconColor: '#e74c3c',
+                title: 'Error',
+                text: '<?= session()->getFlashdata('error') ?>',
+                confirmButtonColor: '#1D1E1E',
+                background: '#fff',
+                customClass: {
+                    popup: 'premium-swal-popup',
+                    confirmButton: 'premium-swal-confirm'
+                },
+                buttonsStyling: false
+            });
+        <?php endif; ?>
     </script>
+    <style>
+        .premium-swal-popup {
+            border-radius: 20px !important;
+            padding: 2rem !important;
+            font-family: 'Inter', sans-serif !important;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1) !important;
+        }
+        .premium-swal-confirm {
+            background-color: var(--mygate-black) !important;
+            color: white !important;
+            padding: 12px 30px !important;
+            border-radius: 12px !important;
+            font-weight: 600 !important;
+            border: none !important;
+            margin: 0 5px !important;
+            transition: all 0.3s !important;
+        }
+        .premium-swal-confirm:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2) !important;
+        }
+        .premium-swal-cancel {
+            background-color: #f8f9fa !important;
+            color: #666 !important;
+            padding: 12px 30px !important;
+            border-radius: 12px !important;
+            font-weight: 600 !important;
+            border: 1px solid #eee !important;
+            margin: 0 5px !important;
+            transition: all 0.3s !important;
+        }
+        .premium-swal-cancel:hover {
+            background-color: #eee !important;
+        }
+    </style>
     <?php if (session()->get('admin_id')): ?>
         <?= $this->include('admin/layout/ai_widget') ?>
     <?php endif; ?>

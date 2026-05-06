@@ -41,12 +41,12 @@
                     <div class="rounded-circle bg-light p-3 d-inline-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
                         <i class="bi bi-house-door text-primary fs-4"></i>
                     </div>
-                    <span class="badge bg-light text-primary rounded-pill"><?= round(($total_units > 0) ? (($total_units - $vacant_units) / $total_units) * 100 : 0) ?>%</span>
+                    <span class="badge bg-light text-primary rounded-pill"><?= round(($total_units > 0) ? ($vacant_units / $total_units) * 100 : 0) ?>%</span>
                 </div>
                 <h3 class="fw-bold mb-1"><?= $vacant_units ?> / <?= $total_units ?></h3>
                 <p class="text-muted small mb-0 fw-medium">Vacant Units</p>
                 <div class="progress mt-2" style="height: 4px;">
-                    <div class="progress-bar bg-primary" role="progressbar" style="width: <?= ($total_units > 0) ? (($total_units - $vacant_units) / $total_units) * 100 : 0 ?>%"></div>
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: <?= ($total_units > 0) ? ($vacant_units / $total_units) * 100 : 0 ?>%"></div>
                 </div>
             </div>
         </div>
@@ -129,8 +129,9 @@
     <!-- Recent Maintenance -->
     <div class="col-12">
         <div class="card border-0 shadow-sm">
-            <div class="card-header bg-white py-3">
+            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
                 <h6 class="mb-0 fw-bold">Recent Maintenance Logs</h6>
+                <a href="/admin/maintenance" class="btn btn-sm btn-light text-primary fw-bold">View All</a>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">

@@ -27,12 +27,12 @@
                                 <td><strong><?= esc($row['JobTitle']) ?></strong></td>
                                 <td><?= esc($row['property_name']) ?></td>
                                 <td>
-                                    <span class="badge bg-<?= $row['isWorkDone'] == 'Yes' ? 'success' : 'info' ?>">
+                                    <span class="badge status-<?= $row['isWorkDone'] == 'Yes' ? 'completed' : 'pending' ?>">
                                         <?= esc($row['isWorkDone'] == 'Yes' ? 'Completed' : 'Pending') ?>
                                     </span>
                                 </td>
                                 <td class="text-end">
-                                    <a href="/admin/workorder/delete/<?= $row['wo_id'] ?>" class="btn btn-sm btn-light text-danger" onclick="return confirm('Are you sure?')" title="Delete">
+                                    <a href="/admin/workorder/delete/<?= $row['wo_id'] ?>" class="btn btn-sm btn-light text-danger confirm-delete" data-message="Are you sure?" title="Delete">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>

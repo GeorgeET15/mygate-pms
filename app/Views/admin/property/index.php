@@ -33,7 +33,7 @@
                                     <a href="/admin/property/edit/<?= esc($property['property_id']) ?>" class="btn btn-sm btn-light text-primary me-1" title="Edit">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <a href="/admin/property/delete/<?= esc($property['property_id']) ?>" class="btn btn-sm btn-light text-danger" onclick="return confirm('Are you sure you want to delete this property?');" title="Delete">
+                                    <a href="/admin/property/delete/<?= esc($property['property_id']) ?>" class="btn btn-sm btn-light text-danger confirm-delete" data-message="Are you sure you want to delete this property?" title="Delete">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>

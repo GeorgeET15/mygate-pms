@@ -26,7 +26,7 @@
                                 <td><?= esc($row['propertyName']) ?></td>
                                 <td><?= esc($row['availableDate']) ?></td>
                                 <td class="text-end">
-                                    <a href="/admin/marketing/delete/<?= $row['marketing_id'] ?>" class="btn btn-sm btn-light text-danger" onclick="return confirm('Are you sure?')" title="Delete">
+                                    <a href="/admin/marketing/delete/<?= $row['marketing_id'] ?>" class="btn btn-sm btn-light text-danger confirm-delete" data-message="Are you sure?" title="Delete">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>
