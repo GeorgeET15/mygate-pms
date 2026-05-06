@@ -1,0 +1,48 @@
+[
+  {
+    "name": "get_overdue_rents",
+    "description": "Returns a list of tenants with overdue rent for a specific property.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "property_id": {
+          "type": "integer",
+          "description": "The unique ID of the property."
+        }
+      },
+      "required": ["property_id"]
+    }
+  },
+  {
+    "name": "get_maintenance_history",
+    "description": "Retrieves the complete maintenance history for a specific property or unit.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "property_id": {
+          "type": "integer",
+          "description": "The unique ID of the property."
+        },
+        "unit_id": {
+          "type": "integer",
+          "description": "Optional unit ID for filtered search."
+        }
+      },
+      "required": ["property_id"]
+    }
+  },
+  {
+    "name": "create_lease_record",
+    "description": "Drafts a new lease record in the database for an approved applicant.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "tenant_id": { "type": "integer" },
+        "rent": { "type": "number" },
+        "movein_date": { "type": "string", "format": "date" },
+        "moveout_date": { "type": "string", "format": "date" }
+      },
+      "required": ["tenant_id", "rent", "movein_date"]
+    }
+  }
+]

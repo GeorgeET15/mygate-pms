@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS `property` (
   `property_country` varchar(255) DEFAULT NULL,
   `property_province` varchar(255) DEFAULT NULL,
   `zip_code` varchar(50) DEFAULT NULL,
+  `metadata` JSON DEFAULT NULL,
   PRIMARY KEY (`property_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -49,6 +50,7 @@ CREATE TABLE IF NOT EXISTS `unit` (
   `trent` varchar(255) DEFAULT NULL,
   `trent_period` varchar(255) DEFAULT NULL,
   `vacant_status` int(11) DEFAULT '0',
+  `metadata` JSON DEFAULT NULL,
   PRIMARY KEY (`unit_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -220,6 +222,7 @@ CREATE TABLE IF NOT EXISTS `work_order` (
   `isAuthorized` varchar(255) DEFAULT NULL,
   `isPaid` varchar(255) DEFAULT NULL,
   `datePaid` date DEFAULT NULL,
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`wo_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -234,7 +237,9 @@ CREATE TABLE IF NOT EXISTS `p_maintenance_log` (
   `when_done` date DEFAULT NULL,
   `Notes` text,
   `user` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`maintenance_log_id`)
+  PRIMARY KEY (`maintenance_log_id`),
+  FULLTEXT INDEX `idx_maintenance_desc` (`Description`),
+  FULLTEXT INDEX `idx_maintenance_notes` (`Notes`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `p_termination` (
@@ -313,7 +318,8 @@ CREATE TABLE IF NOT EXISTS `p_marketing` (
   `imageUpload` varchar(255) DEFAULT NULL,
   `uploadBy` varchar(255) DEFAULT NULL,
   `status` int(11) DEFAULT '0',
-  PRIMARY KEY (`marketing_id`)
+  PRIMARY KEY (`marketing_id`),
+  FULLTEXT INDEX `idx_marketing_desc` (`description`, `shortDescription`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `noticeboard` (
@@ -321,7 +327,8 @@ CREATE TABLE IF NOT EXISTS `noticeboard` (
   `notice_title` longtext NOT NULL,
   `notice` longtext NOT NULL,
   `create_timestamp` int(11) NOT NULL,
-  PRIMARY KEY (`notice_id`)
+  PRIMARY KEY (`notice_id`),
+  FULLTEXT INDEX `idx_notice_content` (`notice_title`, `notice`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Missing tables for Property Management System
@@ -454,3 +461,14 @@ INSERT INTO `language` (`phrase`, `english`) VALUES
 ('settings_updated', 'Settings Updated'),
 ('login_failed', 'Login Failed'),
 ('logged_out', 'Logged Out');
+
+CREATE TABLE IF NOT EXISTS `activity_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `action` varchar(255) NOT NULL,
+  `table_name` varchar(255) DEFAULT NULL,
+  `record_id` int(11) DEFAULT NULL,
+  `details` JSON DEFAULT NULL,
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

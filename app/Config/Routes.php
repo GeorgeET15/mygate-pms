@@ -74,6 +74,9 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], static functio
     // Payment Routes
     $routes->get('payment', 'Payment::index');
     
+    // AI Routes
+    $routes->post('aichat', 'AiChat::index');
+    
     // Application Routes
     $routes->get('application', 'Application::index');
     $routes->get('application/list', 'Application::list');

@@ -462,5 +462,8 @@
             });
         });
     </script>
+    <?php if (session()->get('admin_id')): ?>
+        <?= $this->include('admin/layout/ai_widget') ?>
+    <?php endif; ?>
 </body>
 </html>
