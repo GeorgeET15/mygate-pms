@@ -28,21 +28,30 @@ class Settings extends BaseController
     {
         $model = new SettingModel();
         if ($this->request->is('post')) {
-            $data = $this->request->getPost('dash');
-            foreach ($data as $type => $value) {
-                $model->where('type', $type)->set(['description' => $value])->update();
-            }
-            // Also handle checkboxes that are unchecked (won't be in POST)
+            $data = $this->request->getPost('dash') ?? [];
+            
             $all_types = [
                 'dash_show_properties', 'dash_show_vacant', 'dash_show_revenue', 'dash_show_pending', 
                 'dash_show_chart', 'dash_show_maintenance', 'dash_show_tenants', 'dash_show_marketing',
                 'dash_show_links', 'dash_show_notices', 'dash_show_projects', 'dash_show_landlords'
             ];
+
             foreach ($all_types as $type) {
-                if (!isset($data[$type])) {
-                    $model->where('type', $type)->set(['description' => '0'])->update();
+                $value = isset($data[$type]) ? '1' : '0';
+                
+                // Check if setting already exists
+                $existing = $model->where('type', $type)->first();
+                
+                if ($existing) {
+                    $model->where('type', $type)->set(['description' => $value])->update();
+                } else {
+                    $model->insert([
+                        'type' => $type,
+                        'description' => $value
+                    ]);
                 }
             }
+            
             return redirect()->to('/admin/settings/dashboard')->with('success', 'Dashboard preferences updated.');
         }
         
